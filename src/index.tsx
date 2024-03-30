@@ -1,10 +1,12 @@
+import {get} from 'enmity/api/settings';
 import {Plugin, registerPlugin} from 'enmity/managers/plugins'
 import {React, Toasts} from 'enmity/metro/common'
 import {create} from 'enmity/patcher'
 // @ts-ignore
 import manifest, {name as plugin_name} from '../manifest.json'
 import Settings from "./components/Settings"
-import {getStoreByName} from "../../hook";
+// import {getStoreByName} from "../../hook"; // fuck you.
+import {getStoreByName, isIconBold} from "./fuck.tsx"
 import {getByProps} from "enmity/modules";
 import {getIDByName} from "enmity/api/assets";
 
@@ -36,11 +38,13 @@ const FixConnecting: Plugin = {
                 let session_id = store.getSessionId()
                 if (!session_id) {
                     FluxDispatcher?.dispatch({type: 'APP_STATE_UPDATE', state: 'active'})
-                    Toasts.open({ // Warning: Toastの引数が変更されている
-                        key: "TOAST",
-                        content: `Automatically fixed Connecting bug!`,
-                        icon: getIDByName('Check')
-                    });
+                    if (get(plugin_name, "initialization_toast", true)) {
+                        Toasts.open({ // Warning: Toastの引数が変更されている
+                            key: "TOAST",
+                            content: `Connecting bug circumvented.`,
+                            icon: getIDByName(isIconBold())
+                        });
+                    }
                     // S.switchAccountToken(args[0])
                 }
             }, 300) // NOTE: 早すぎたら不必要に再読み込みするだけなのであまり気にしない

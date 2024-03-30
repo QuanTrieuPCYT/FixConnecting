@@ -1,16 +1,18 @@
-import {FormRow, FormSection, View, ScrollView, Image, Text} from 'enmity/components'
+import {FormSwitch, FormRow, FormSection, View, ScrollView, Image, Text} from 'enmity/components'
 import {Constants, Navigation, React, StyleSheet} from 'enmity/metro/common'
-import {Linking} from "enmity/metro/common"
+import {Toasts, Linking} from "enmity/metro/common"
 // @ts-ignore
 import {name, version} from '../../manifest.json'
 import {getIDByName} from "enmity/api/assets"
 import {getByProps} from "enmity/modules"
+import {isIconBold} from "../fuck.tsx"
 
 const GitHubIcon = getIDByName('img_account_sync_github_white')
 const DiscordIcon = getIDByName('Discord')
 const TwitterIcon = getIDByName('img_account_sync_twitter_white')
-
+const ToastIcon = getIDByName('ForumIcon')
 const Invites = getByProps('acceptInviteAndTransitionToInviteChannel')
+const TickIcon = getIDByName('ic_checked')
 
 export default ({settings}) => {
     const styles = StyleSheet.createThemedStyleSheet({
@@ -23,7 +25,8 @@ export default ({settings}) => {
             width: 70,
             height: 70,
             marginTop: 20,
-            marginLeft: 20
+            marginLeft: 20,
+            borderRadius: 10,
         },
         title: {
             flexDirection: "column",
@@ -34,10 +37,11 @@ export default ({settings}) => {
             paddingLeft: 20,
             paddingRight: 30,
             color: Constants.ThemeColorMap.HEADER_PRIMARY,
+            fontFamily: Constants.Fonts.DISPLAY_BOLD,
         },
         author: {
             fontSize: 15,
-            paddingLeft: 50,
+            paddingLeft: 20,
             color: Constants.ThemeColorMap.HEADER_SECONDARY,
         },
         info: {
@@ -58,14 +62,40 @@ export default ({settings}) => {
         <ScrollView>
             <View style={styles.container}>
                 <Image
-                    source={{uri: 'https://avatars.githubusercontent.com/u/43488869'}}
+                    source={{uri: 'https://cdn.discordapp.com/avatars/699512154004652093/eb60849c35d6e584daf94f8be39cc012.png'}}
                     style={styles.image}
                 />
                 <View style={styles.title}>
                     <Text style={styles.name}>FixConnecting</Text>
-                    <Text style={styles.author}>by mafu</Text>
+                    <Text style={styles.author}>by mafu, modified by QuanTrieuPCYT</Text>
                 </View>
             </View>
+            <FormSection title="OPTIONS">
+                <FormRow
+                    label="Initialization Toast"
+                    leading={<FormRow.Icon source={ToastIcon}/>}
+                    trailing={
+                        <FormSwitch
+                            value={settings.getBoolean("initialization_toast", false)}
+                            onValueChange={() => {
+                                settings.toggle("initialization_toast", false)
+                            }}
+                        />
+                    }
+                />  
+                <FormRow
+                    label="Bold Toast Icon"
+                    leading={<FormRow.Icon source={TickIcon}/>}
+                    trailing={
+                        <FormSwitch
+                            value={settings.getBoolean("bold_toast_icon", false)}
+                            onValueChange={() => {
+                                settings.toggle("bold_toast_icon", false)
+                            }}
+                        />
+                    }
+                />  
+            </FormSection>
             <FormSection title="INFORMATION">
                 <FormRow
                     label="Follow me on Twitter"
@@ -73,7 +103,7 @@ export default ({settings}) => {
                     trailing={FormRow.Arrow}
                     leading={<FormRow.Icon source={TwitterIcon}/>}
                     onPress={() => {
-                        Linking.openURL("https://twitter.com/m4fn3")
+                        Linking.openURL("https://twitter.com/qtpctechhxd")
                     }}
                 />
                 <FormRow
@@ -83,7 +113,7 @@ export default ({settings}) => {
                     leading={<FormRow.Icon source={DiscordIcon}/>}
                     onPress={() => {
                         Invites.acceptInviteAndTransitionToInviteChannel({
-                            inviteKey: 'TrCqPTCrdq',
+                            inviteKey: 'sJ9NQprExv',
                             context: {location: 'Invite Button Embed'},
                             callback: () => {Navigation.pop()}
                         })
@@ -95,7 +125,7 @@ export default ({settings}) => {
                     trailing={FormRow.Arrow}
                     leading={<FormRow.Icon source={GitHubIcon}/>}
                     onPress={() => {
-                        Linking.openURL("https://github.com/m4fn3/FixConnecting")
+                        Linking.openURL("https://github.com/QuanTrieuPCYT/FixConnecting")
                     }}
                 />
             </FormSection>

@@ -4,9 +4,13 @@
   "description": "Fix the annoying Connecting bug",
   "authors": [
     {
+      "name": "QuanTrieuPCYT",
+      "id": "699512154004652093"
+    },
+    {
       "name": "mafu",
       "id": "519760564755365888"
     }
   ],
-  "color": "#0D324D"
+  "color": "#00FFFF"
 }
